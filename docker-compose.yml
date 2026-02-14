@@ -1,0 +1,31 @@
+services:
+  app:
+    container_name: app
+    image: app:v1
+    restart: unless-stopped
+    network_mode: "service:openconnect"
+    depends_on:
+      - openconnect
+
+  openconnect:
+    container_name: openconnect
+    image: openconnect:v1
+    privileged: true
+    restart: unless-stopped
+    env_file:
+      - .env
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    sysctls:
+      net.ipv4.ip_forward: 1
+    networks:
+      - openconnect
+    ports:
+      # You can set app port here to expose from vpn net
+      - "7979:8080"
+
+networks:
+  openconnect:
+    driver: bridge
