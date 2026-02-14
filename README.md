@@ -106,6 +106,7 @@ All other traffic will use the default route.
 
 If `DNS` is defined, `/etc/resolv.conf` inside the VPN container
 will be overridden.
+
 for communicating between services those aren't accessible through vpn, it is required to declare DNS.
 
 ------------------------------------------------------------------------
