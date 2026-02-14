@@ -58,7 +58,7 @@ This ensures **all outbound traffic from the app goes through the VPN**.
 
 ## ⚙️ Configuration
 
-Create an `openconnect.env` file:
+Create an `.env` file:
 
 ``` env
 PASSWORD="your_password"
@@ -68,7 +68,7 @@ HOST="vpn.company.com"
 SERVER_PIN_CERT="sha256:xxxxxxxxxxxxxxxx"
 PROTOCOL="anyconnect"
 SPLIT_ROUTES="10.0.0.0/8 192.168.0.0/16"
-LOCAL_DNS="10.0.0.2"
+DNS="1.1.1.1 8.8.8.8 192.168.1.2" # for global dns / or local dns
 NO_DTLS=true
 ```
 
@@ -104,8 +104,9 @@ All other traffic will use the default route.
 
 ## 🌐 DNS Handling
 
-If `LOCAL_DNS` is defined, `/etc/resolv.conf` inside the VPN container
+If `DNS` is defined, `/etc/resolv.conf` inside the VPN container
 will be overridden.
+for communicating between services those aren't accessible through vpn, it is required to declare DNS.
 
 ------------------------------------------------------------------------
 
@@ -126,17 +127,13 @@ will be overridden.
     ├── docker-compose.yml
     ├── entrypoint.sh
     ├── openconnect.env.sample
+    ├── .env
     └── README.md
 
 ------------------------------------------------------------------------
 
 ## 💡 Use Cases
-
--   Access internal APIs from CI/CD
--   Run staging apps behind VPN
--   Secure database connectivity
--   Isolated internal service testing
--   Microservices requiring private network access
+- Connect internal services through openconnect protocols specially anyconnect
 
 ------------------------------------------------------------------------
 
